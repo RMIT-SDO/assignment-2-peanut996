@@ -23,7 +23,7 @@ jobs:
           command:  sshpass -p $SSH_PASSWORD  scp -P $SSH_PORT  ansible/files/simpletodoapp-1.0.1.tgz root@$SSH_HOST:~
       - run: 
           name: ssh exact simple todo app
-          command: sshpass -p $SSH_PASSWORD  ssh -p $SSH_PORT  root@$SSH_HOST "mkdir simpletodoapp-1.0.1 && tar -zxv -C simpletodoapp-1.0.1/ -f  simpletodoapp-1.0.1.tgz --strip-components 1 package"
+          command: sshpass -p $SSH_PASSWORD  ssh -p $SSH_PORT  root@$SSH_HOST "mkdir -p simpletodoapp-1.0.1 && tar -zxv -C simpletodoapp-1.0.1/ -f  simpletodoapp-1.0.1.tgz --strip-components 1 package"
       - run: 
           name: ssh restart service
           command: sshpass -p $SSH_PASSWORD  ssh -p $SSH_PORT  root@$SSH_HOST "systemctl restart simpletodo"
