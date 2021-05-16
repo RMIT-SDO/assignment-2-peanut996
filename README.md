@@ -192,6 +192,65 @@ screenshot after success: ![SG](./assets/SG.png)
 ### Stage E
 
 
+## Credit
+By default terraform's state file is saved locally, however this is very prone to loss, so it is possible to throw this state into the cloud for storage, e.g. S3 bucket
+
+```bash
+terraform {
+  backend "s3" {
+    bucket         = "rmit-tfstate-uznb7w"
+    key            = "stage/data-stores/terraform.tfstate"
+    region         = "us-east-1"
+
+    dynamodb_table = "RMIT-locktable-uznb7w"
+    encrypt        = true
+  }
+  # ...other code
+}
+```
+The configuration shown above is a change of the backend to the S3 Bucket.
+screenshot here: ![terraform-backend](./assets/terraform-backend.png)
+
+
+## Distinction
+
+When creating the instance of EC2, I used the option of data directly and defined the definition of ami in this section, like the following:
+
+```bash
+data "aws_ami" "latest-ubuntu" {
+  most_recent = true
+  owners      = ["099720109477"] # Canonical
+
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-xenial-16.04-amd64-server-*"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+}
+```
+The `most_recent` option here represents the most recent version of AMI.
+
+
+Because of the convenience of the module used, I only had to change the instance_count to 2, and that was all I needed. Just like below:
+
+```bash
+module "ec2_instance" {
+  # other code
+  # instance_count = 1
+  instance_count = 2
+  # other code
+}
+```
+
+## High Distinction
+
+The modified CircleCI configuration file is [here](./.circleci/config.yml).
+
+
 
 
 ###### This project is licensed under the MIT Open Source License
