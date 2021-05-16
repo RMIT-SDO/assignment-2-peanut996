@@ -1,7 +1,33 @@
 - name: Deploy Application
-  hosts: all
+  hosts: web
   tasks: 
-    - name: make inventory
-      shell: bash scripts/run-ansible.sh
+    
+    - name: exact package
+      unarchive: 
+        src: "files/simpletodoapp-1.0.1.tgz"
+        dest: "~"
+        mode: 644
+        owner: root
+        group: root
 
-    - include: scripts/inventory.yml
+    - name: node install
+      shell: cd package && apt install -f nodejs npm && npm install
+
+    - name: copy service file
+      copy: 
+        src: "scripts/simpletodo.service"
+        dest: "/etc/systemd/system/"
+        mode: 755
+        owner: root
+        group: root
+    
+    - name: service enable
+      systemd: 
+        daemon_reload: yes
+        name: simpletodo
+        enabled: True    
+
+    - name: service restart
+      systemd: 
+        state: restarted
+        name: simpletodo

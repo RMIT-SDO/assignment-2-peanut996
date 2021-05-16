@@ -167,7 +167,7 @@ The VPC was created successfully and the screenshot is shown below:
 
 #### LoadBalaner
 
-For the LoadBalaner creation I again used the official AWS template [alb](https://registry.terraform.io/modules/terraform-aws-modules/alb), then add a 80 port target group and listener on it. Detailed configuration can be found at [lb.tf]((./infra/lb.tf))
+For the LoadBalaner creation I again used the official AWS template [alb](https://registry.terraform.io/modules/terraform-aws-modules/alb), then add a 80 port target group and listener on it. Detailed configuration can be found at [lb.tf](./infra/lb.tf)
 
 Screenshot after success: ![SG](./assets/SG.png)
 
@@ -191,6 +191,15 @@ screenshot after success: ![SG](./assets/SG.png)
 
 ### Stage E
 
+I used ansible to first upload the packaged packages to the server, then executed npm install, then uploaded the service files to the server and used systemd to manage them, and used the [run-ansible.sh ](./ansible/scripts/run-ansible.sh)  script file to get the Ec2 and DocDB entry points. Ansible playbook is [playbook.yml](./ansible/playbook.yml)
+
+```bash
+cd ansible/scripts
+bash run-ansible.sh 
+```
+
+[run-ansible.sh ](./ansible/scripts/run-ansible.sh) dynamically generates the web host and db host via terraform output.  
+screenshot is here: ![Ansible](./assets/Ansible.png)
 
 ## Credit
 By default terraform's state file is saved locally, however this is very prone to loss, so it is possible to throw this state into the cloud for storage, e.g. S3 bucket
@@ -249,6 +258,8 @@ module "ec2_instance" {
 ## High Distinction
 
 The modified CircleCI configuration file is [here](./.circleci/config.yml).
+
+screenshot after success build: ![CircleCI](./assets/CircleCI.png)
 
 
 
