@@ -10,9 +10,11 @@ module "vpc" {
   database_subnets = ["10.0.201.0/24", "10.0.202.0/24", "10.0.203.0/24"]
 
   create_database_subnet_group = true
-  enable_nat_gateway = true
   enable_vpn_gateway = false
-
+  # One NAT Gateway per availability zone
+  enable_nat_gateway = true
+  single_nat_gateway = false
+  one_nat_gateway_per_az = true
   tags = {
     Terraform   = "true"
     Environment = "dev"

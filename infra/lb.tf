@@ -1,12 +1,31 @@
-resource "aws_lb" "nlb_1" {
-  name               = "network-lb-1"
-  internal           = false
-  load_balancer_type = "network"
-  subnets            = module.vpc.public_subnets
+module "nlb" {
+  source  = "terraform-aws-modules/alb/aws"
+  version = "~> 6.0"
 
-  enable_deletion_protection = true
+  name = "my-nlb"
+
+  load_balancer_type = "network"
+
+  vpc_id  = module.vpc.vpc_id
+  subnets = module.vpc.public_subnets
+
+  target_groups = [
+    {
+      name_prefix      = "pref-"
+      backend_protocol = "TCP"
+      backend_port     = 80
+      target_type      = "ip"
+    }
+  ]
+  http_tcp_listeners = [
+    {
+      port               = 80
+      protocol           = "TCP"
+      target_group_index = 0
+    }
+  ]
 
   tags = {
-    Environment = "production"
+    Environment = "Dev"
   }
 }

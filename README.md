@@ -147,7 +147,7 @@ In this Stage, The things to do are "Create a VPC in terraform with 3 layers acr
 
 Use module is a better choice, so I user [AWS VPC Terraform module](https://registry.terraform.io/modules/terraform-aws-modules/vpc/aws/latest) for a quick way.
 
-The configuration file is defined in the vpc.tf file, executed by the following command：
+The configuration file is defined in the [vpc.tf](./infra/vpc.tf) file, executed by the following command：
 
 ```bash
 # download the module and dependency
@@ -163,6 +163,33 @@ The VPC was created successfully and the screenshot is shown below:
 ![vpc-subnets](./assets/vpc-subnets.png)
 
 
+### Stage D
+
+#### LoadBalaner
+
+For the LoadBalaner creation I again used the official AWS template [alb](https://registry.terraform.io/modules/terraform-aws-modules/alb), then add a 80 port target group and listener on it. Detailed configuration can be found at [lb.tf]((./infra/lb.tf))
+
+Screenshot after success: ![SG](./assets/SG.png)
+
+#### EC2
+
+For the EC2 instance creation I again used the official AWS template [ec2-instance](https://registry.terraform.io/modules/terraform-aws-modules/ec2-instance), the whole config is in [ec2.tf](./infra/ec2.tf)
+
+screenshot after success: ![ec2](./assets/EC2.png)
+
+#### Database
+
+For the DocDB creation I again used the non-offical template [documentdb-cluster](https://registry.terraform.io/modules/cloudposse/documentdb-cluster), the whole config is in [db.tf](./infra/db.tf)
+
+screenshot after success: ![DB](./assets/DB.png)
+
+#### Security Group
+
+Three separate groups of rules were defined when creating the security group rules, websg,appsg,dbssg, the remaining two groups are inherited from the first group with minor changes. Configuration is in [sg.tf](./infra/sg.tf)
+
+screenshot after success: ![SG](./assets/SG.png)
+
+### Stage E
 
 
 

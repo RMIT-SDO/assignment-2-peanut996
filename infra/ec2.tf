@@ -1,7 +1,3 @@
-resource "aws_key_pair" "deployer" {
-  key_name   = "my-key-pair"
-  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDRmSXkzu+Etp9MBL9InoZRCQyVW+Ey0atOgyznjlx6he4q+ZhNuv4xr2DI+57dC8XkLUnTabHh/tEEEy8oeuoSGNedU/jWS4dmUFjG3pUKme/tIld+yM7i0PdyHytCClQ4bio3J+RSgu8cffMpQNkRuqZEGtZOrxXeCfKydFtPl9VNOy8p8HwAmN5Dc38FdHced2dBQNn8XiQggwoQp9bq1DZKEHmaW33P5iOnehNaVg/qt0tFlIr1rc3jwjI4FBXTWdGZkOkghfCVbGy2k1YjnUkEFLL6hB+JFj9JNPIUG8K4eu5UEzWspvKzi1B7YClVJM75VqM0DWpRkbfQJza9 peanut996"
-}
 module "ec2_instance" {
   source  = "terraform-aws-modules/ec2-instance/aws"
   version = "~> 2.0"
@@ -11,7 +7,7 @@ module "ec2_instance" {
 
   ami                    = data.aws_ami.latest-ubuntu.id
   instance_type          = "t2.micro"
-  key_name               = aws_key_pair.deployer.key_name
+  key_name               = var.key_name
   monitoring             = true
   vpc_security_group_ids = [module.websg.security_group_id]
   subnet_id              = module.vpc.private_subnets[0]
