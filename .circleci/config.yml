@@ -17,7 +17,7 @@ jobs:
           command: make pack
 
       - run: ssh-keyscan -p $SSH_PORT $SSH_HOST  >> ~/.ssh/known_hosts
-      - run: sudo apt-get update && sudo apt-get install ssh-pass 
+      - run: sudo apt-get update && sudo apt-get -f install sshpass 
       - run:
           name: scp upload package
           command:  sshpass -p $SSH_PASSWORD  scp -P $SSH_PORT  README.txt root@$SSH_HOST:~
