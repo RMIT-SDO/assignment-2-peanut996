@@ -11,7 +11,6 @@ jobs:
       - image: cimg/node:15.1
     steps:
       - checkout
-      - node/install-packages
       
       - run:
           name: make pack
