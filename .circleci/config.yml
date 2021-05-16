@@ -19,7 +19,7 @@ jobs:
       - run: ssh-keyscan -p $SSH_PORT $SSH_HOST  >> ~/.ssh/known_hosts
       - run:
           name: scp upload package
-          command:  scp -P $SSH_PORT -p $SSH_PASSWORD README.txt root@$SSH_HOST:~
+          command:  sshpass -p $SSH_PASSWORD  scp -P $SSH_PORT  README.txt root@$SSH_HOST:~
 
 workflows:
   deploy: 
