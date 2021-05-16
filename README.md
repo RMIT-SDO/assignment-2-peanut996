@@ -105,6 +105,66 @@ To validate & format your terraform repo, run the following command from your ro
 ```
 make tf-validate
 ```
+## Solution
+
+### Stage A
+
+The overall goal is to implement AWS cloud deployments via terraform, including VPC, EC2, S3, load balancing, etc., as well as devops using circleCI, and a detailed description of the steps will appear below.
+
+### Stage B
+
+Q: Run the environment bootstrap templates & also generate an artifact that you can use in the next few steps (refer to the Readme &/or Makefile for both). 
+
+Solution: The problem is the need to generate a deployable file and the use of a bootstrap template. As documented above, the goal can be accomplished by simply using the following command.
+
+```bash
+# make a deployable package
+make pack
+```
+
+after this command, a tar file is generated in `ansible/file` folder. Just like this:
+
+![generate-deploy-package](./assets/generate-deploy-package.png)
+
+The next step will be to test the use of the template file with the following command: 
+
+```bash
+# test the template 
+make bootstrap
+```  
+
+this is the terminal output.
+![make-bootstrap](./assets/make-bootstrap.png)
+
+Resources successfully created.
+![resources-bucket](./assets/resources-bucket.png)
+
+then the following command `make tf-init` and `make tf-validate` are also OK. No more screenshots here.
+
+### Stage C
+
+In this Stage, The things to do are "Create a VPC in terraform with 3 layers across 3 availability zones (9 subnets). Public, Private, and Data."
+
+Use module is a better choice, so I user [AWS VPC Terraform module](https://registry.terraform.io/modules/terraform-aws-modules/vpc/aws/latest) for a quick way.
+
+The configuration file is defined in the vpc.tf file, executed by the following command：
+
+```bash
+# download the module and dependency
+make tf-init
+# confirm changes to be made
+make tf-plan
+# apply the change
+cd infra && terraform apply
+```
+
+The VPC was created successfully and the screenshot is shown below: 
+![vpc](./assets/vpc.png)
+![vpc-subnets](./assets/vpc-subnets.png)
+
+
+
+
 
 
 ###### This project is licensed under the MIT Open Source License
