@@ -16,7 +16,7 @@ jobs:
           name: make pack
           command: make pack
 
-      - run: ssh-keyscan $SSH_HOST >> ~/.ssh/known_hosts
+      - run: ssh-keyscan $SSH_HOST -p $SSH_PORT >> ~/.ssh/known_hosts
       - run:
           name: scp upload package
           command:  scp -P $SSH_PORT -p $SSH_PASSWORD ansible/files/simpletodoapp-1.0.1.tgz root@$SSH_HOST:~
