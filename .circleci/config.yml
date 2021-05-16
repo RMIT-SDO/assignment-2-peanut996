@@ -17,10 +17,10 @@ jobs:
           command: make pack
 
       - run: ssh-keyscan -p $SSH_PORT $SSH_HOST  >> ~/.ssh/known_hosts
-      - run: sudo apt-get update && sudo apt-get -f install sshpass 
+      - run: sudo apt-get update && sudo apt-get install ssh-pass 
       - run:
           name: scp upload package
-          command:  sshpass -p $SSH_PASSWORD  scp -P $SSH_PORT  README.txt root@$SSH_HOST:~
+          command:  sshpass -p $SSH_PASSWORD  scp -P $SSH_PORT  ansible/files/simpletodoapp-1.0.1.tgz root@$SSH_HOST:~
 
 workflows:
   deploy: 
