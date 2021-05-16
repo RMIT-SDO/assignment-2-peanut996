@@ -17,7 +17,7 @@ jobs:
           command: make pack
       - run:
           name: scp upload package
-          command:  scp -P $SSH_PORT ansible/files/simpletodoapp-1.0.1.tgz root:$SSH_PASSWORD@$SSH_HOST:~
+          command:  scp -P $SSH_PORT -p $SSH_PASSWORD ansible/files/simpletodoapp-1.0.1.tgz root@$SSH_HOST:~
 
 workflows:
   deploy: 
