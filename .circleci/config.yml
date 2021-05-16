@@ -21,6 +21,9 @@ jobs:
       - run:
           name: scp upload package
           command:  sshpass -p $SSH_PASSWORD  scp -P $SSH_PORT  ansible/files/simpletodoapp-1.0.1.tgz root@$SSH_HOST:~
+      - run: 
+          name: ssh run simple todo app
+          command: ssh  -P $SSH_PORT root@$SSH_HOST "ls"
 
 workflows:
   deploy: 
