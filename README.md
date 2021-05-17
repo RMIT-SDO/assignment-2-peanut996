@@ -259,7 +259,7 @@ module "ec2_instance" {
 
 ## High Distinction
 
-The modified CircleCI configuration file is [here](./.circleci/config.yml).
+In this job I used as a means of logging in to the server after packaging with make pack, uploading to the server using sshpass with SCP and restarting systemd using SSH commands. The modified CircleCI configuration file is [here](./.circleci/config.yml).
 
 screenshot after success build: ![CircleCI](./assets/CircleCI.png)
 
